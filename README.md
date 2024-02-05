@@ -1,14 +1,11 @@
 # DaldartAssignment
 
-# Firebase_Integration
 
-1- Firebase is integrated into the application to handle data storage. The Firestore database is utilized to store information about subreddit posts.
-Firebase configuration is set up at the beginning of the script using the firebase package, and Firestore functionalities are imported from 'firebase/firestore'.
-Firestore Operations:
+# Project Overview:
+This React project is designed to interact with the Reddit API and display a list of posts from a specified subreddit. The key feature of the application is the implementation of an infinite loading list, providing a smooth and dynamic user experience as the user scrolls through the content.
 
-2-  When the server receives a request to fetch and store data, it checks if the data for the specified subreddit and pagination key already exists in Firestore.
-- If the data is not present, it adds a new document to the Firestore collection, storing information such as children (subreddit posts) and the pagination key (after).
-- If the data already exists, the server retrieves and returns the stored data from Firestore.
-Error Handling:
-
-3- The code includes error handling to manage situations where there might be issues with the Reddit API request, Firebase operations, or other potential errors. It sends appropriate responses with error details in case of failures.
+# Technologies Used:
+React: The project is built using the React library, providing a component-based structure for efficient development and rendering.
+Axios: Axios is utilized for making HTTP requests to the Reddit API, allowing seamless data retrieval.
+Infinite Loading: The application employs an infinite loading technique to dynamically fetch and display additional posts as the user scrolls down the list.
+Tailwind: Styled Components are used for styling, providing a modular and maintainable approach to styling React components.
