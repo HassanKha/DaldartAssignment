@@ -31,7 +31,7 @@ app.post("/fetch-and-store", async (req, res) => {
     const redditApiUrl =
       `https://oauth.reddit.com/r/wwe/${req.body.Type}?after=` + req.body.data;
 
-      console.log(req.body,redditApiUrl);
+
 
     const response = await axios.get(redditApiUrl, axiosConfig);
 
@@ -43,8 +43,21 @@ app.post("/fetch-and-store", async (req, res) => {
 
     const dataFromReddit = responseData.data;
     const children = dataFromReddit.data;
- 
-    res.json({ success: true, children: children });
+    const firestore = getFirestore(firebase);
+    const collectionRef = collection(firestore, req.body.Type);
+
+    const documentRef = doc(firestore, req.body.Type,req.body.data == '' ? 'begin' : req.body.data);
+    const documentSnapshot = await getDoc(documentRef);
+
+    if (!documentSnapshot.exists()) {
+      const childrenData = dataFromReddit.data.children || [];
+      await setDoc(documentRef, { children: childrenData , after: children.after });
+      const document = await getDoc(documentRef);
+      console.log(document);
+      res.json({ success: true, children: document.data() });
+    } else {
+      res.json({ success: true, children: documentSnapshot.data() });
+    }
   } catch (error) {
     console.error("Error:", error);
     res.status(500).json({ success: false, message: "Internal server error." });
